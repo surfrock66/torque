@@ -16,6 +16,14 @@ if (mysqli_num_rows($result) > 0) {
 }
 // Iterate over all the k* _GET arguments to check that a field exists
 if (sizeof($_GET) > 0) {
+
+        // ABRP forwarding
+        foreach ($_GET as $key => $value) {
+                $out[] = $key ."=". $value;
+        }
+        $result = file_get_contents('http://api.iternio.com/1/tlm/kona64?' . implode("&", $out));
+        #echo 'http://api.iternio.com/1/tlm/kona64?' . implode("&", $out);
+
   $keys = array();
   $values = array();
   $sesskeys = array();
@@ -120,7 +128,7 @@ if (sizeof($_GET) > 0) {
           $dbfields_per_table = array();
           while ($row = mysqli_fetch_assoc($result)) {
             $dbfields_per_table[]=($row['Field']);
-#echo "<br />Debug 17<br />"; 
+#echo "<br />Debug 17<br />";
           }
         }
 #echo "<br />Debug 18 $key $submitval<br />"; print_r($dbfields_per_table);
@@ -153,10 +161,10 @@ if (sizeof($_GET) > 0) {
   }
   // The way session uploads work, there's a separate HTTP call for each datapoint.  This is why raw logs is
   //  so huge, and has so much repeating data. This is my attempt to flatten the redundant data into the
-  //  sessions table; this code checks if there is already a row for the current session, and if there is, only 
+  //  sessions table; this code checks if there is already a row for the current session, and if there is, only
   //  update the ending time and the count of datapoints.  If there isn't a row, insert one.
 
-  // No matter what, if the submitval is higher than 0, make sure a session exists.  
+  // No matter what, if the submitval is higher than 0, make sure a session exists.
   //   If one doesn't, create an entry.  If one does, collect current values
   if ( $submitval >= 1 && (sizeof($sesskeys) === sizeof($sessvalues)) && sizeof($sesskeys) > 0 ) {
 #echo "<br />Debug 25<br />";
@@ -184,7 +192,7 @@ if (sizeof($_GET) > 0) {
   $datakeys[] = 'session';
   $datavalues[] = $sessuploadid;
   $datakeys[] = 'time';
-  $datavalues[] = $sesstime; 
+  $datavalues[] = $sesstime;
 #echo "<br />Debug 30 $submitval ".sizeof($datakeys)." ".sizeof($datavalues)."<br />";
   if ( $submitval == 2 && ( sizeof($datakeys) === sizeof($datavalues) ) && sizeof($datakeys) > 0 ) {
 #echo "<br />Debug 31<br />";
