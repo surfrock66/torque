@@ -89,9 +89,9 @@ if (isset($sids[0])) {
   $setZoomManually = 0;
 
   // Query the list of years and months where sessions have been logged, to be used later
-  $yearmonthquery = mysqli_query($con, "SELECT DISTINCT CONCAT(YEAR(FROM_UNIXTIME(session/1000)), '_', DATE_FORMAT(FROM_UNIXTIME(session/1000),'%m')) as Suffix, 
-		CONCAT(MONTHNAME(FROM_UNIXTIME(session/1000)), ' ', YEAR(FROM_UNIXTIME(session/1000))) as Description 
-		FROM $db_sessions_table ORDER BY Suffix DESC") or die(mysqli_error($con));
+  $yearmonthquery = mysqli_query($con, "SELECT DISTINCT CONCAT(YEAR(FROM_UNIXTIME(session/1000)), '_', DATE_FORMAT(FROM_UNIXTIME(session/1000),'%m')) as Suffix,
+                CONCAT(MONTHNAME(FROM_UNIXTIME(session/1000)), ' ', YEAR(FROM_UNIXTIME(session/1000))) as Description
+                FROM $db_sessions_table ORDER BY Suffix DESC") or die(mysqli_error($con));
   $yearmonthsuffixarray = array();
   $yearmonthdescarray = array();
   $i = 0;
@@ -519,6 +519,18 @@ if (isset($sids[0])) {
         </div>
       </div>
     </div>
+
+<script>
+  $('#seshidtag option').each(function() {
+    entrydate = $(this).text().substr(0, 13);
+    if (ld = parseInt(entrydate)) {
+      ld = new Date( ld );
+      ld = ld.toString().substr(4,17);
+      this.text = ld + $(this).text().substr(13);
+    }
+  });
+</script>
+
   </body>
 </html>
 <?php //echo "<!-- End session.php at ".date("H:i:s", microtime(true))." -->\r\n"; ?>
