@@ -10,7 +10,6 @@ $db_name = 'torque';
 $db_table = 'raw_logs';
 $db_keys_table = 'torque_keys';
 $db_sessions_table = 'sessions';
-$gmapsApiKey = ''; // OPTIONAL: Create a key at https://developers.google.com/maps/documentation/javascript/
 
 // Array of user credentials for Browser login
 $users = array();
@@ -36,6 +35,10 @@ $show_session_length = true;
 
 #Sessions less than limit will not be shown
 $min_session_size = 20;
+
+#ABRP forwarding URL
+$use_abrp = true;
+$abrp_forward_url = 'http://api.iternio.com/1/tlm/kona64';
 
 //echo "<!-- End creds.php -->\r\n";
 ?>
