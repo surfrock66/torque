@@ -52,7 +52,7 @@ while ( isset($_POST["s$i"]) || isset($_GET["s$i"]) ) {
 }
 
 // From the output of the get_sessions.php file, populate the page with info from
-//  the current session. Using successful existence of a session as a trigger, 
+//  the current session. Using successful existence of a session as a trigger,
 //  populate some other variables as well.
 if (isset($sids[0])) {
   if (!isset($session_id)) {
@@ -81,7 +81,7 @@ if (isset($sids[0])) {
   // Create array of Latitude/Longitude strings in Google Maps JavaScript format
   $mapdata = array();
   foreach($geolocs as $d) {
-    $mapdata[] = "new google.maps.LatLng(".$d['lat'].", ".$d['lon'].")";
+    $mapdata[] = "ol.proj.fromLonLat([".$d['lon'].", ".$d['lat']."])";
   }
   $imapdata = implode(",\n          ", $mapdata);
 
@@ -89,9 +89,9 @@ if (isset($sids[0])) {
   $setZoomManually = 0;
 
   // Query the list of years and months where sessions have been logged, to be used later
-  $yearmonthquery = mysqli_query($con, "SELECT DISTINCT CONCAT(YEAR(FROM_UNIXTIME(session/1000)), '_', DATE_FORMAT(FROM_UNIXTIME(session/1000),'%m')) as Suffix,
-                CONCAT(MONTHNAME(FROM_UNIXTIME(session/1000)), ' ', YEAR(FROM_UNIXTIME(session/1000))) as Description
-                FROM $db_sessions_table ORDER BY Suffix DESC") or die(mysqli_error($con));
+  $yearmonthquery = mysqli_query($con, "SELECT DISTINCT CONCAT(YEAR(FROM_UNIXTIME(session/1000)), '_', DATE_FORMAT(FROM_UNIXTIME(session/1000),'%m')) as Suffix, 
+		CONCAT(MONTHNAME(FROM_UNIXTIME(session/1000)), ' ', YEAR(FROM_UNIXTIME(session/1000))) as Description 
+		FROM $db_sessions_table ORDER BY Suffix DESC") or die(mysqli_error($con));
   $yearmonthsuffixarray = array();
   $yearmonthdescarray = array();
   $i = 0;
@@ -139,92 +139,15 @@ if (isset($sids[0])) {
     <script language="javascript" type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script language="javascript" type="text/javascript" src="static/js/jquery.peity.min.js"></script>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js"></script>
-    <!-- Initialize the google maps javascript code -->
-    <script language="javascript" type="text/javascript" defer src="https://maps.googleapis.com/maps/api/js<?php if(!empty($gmapsApiKey)) { echo "?key=$gmapsApiKey&callback=initialize"; } ?>"></script>
-<!--    <script language="javascript" type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>-->
+    <!-- Include OpenStreetMap Openlayers -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+
     <script language="javascript" type="text/javascript">
-      function initialize() {
-        var mapDiv = document.getElementById('map-canvas');
-        var map = new google.maps.Map(mapDiv, {
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          mapTypeControl: true,
-          mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-            poistion: google.maps.ControlPosition.TOP_RIGHT,
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP,
-            google.maps.MapTypeId.TERRAIN,
-            google.maps.MapTypeId.HYBRID,
-            google.maps.MapTypeId.SATELLITE]
-          },
-          navigationControl: true,
-          navigationControlOptions: {
-            style: google.maps.NavigationControlStyle.ZOOM_PAN
-          },
-          scaleControl: true,
-          disableDoubleClickZoom: false,
-          draggable: true,
-          streetViewControl: true,
-          draggableCursor: 'move'
-        });
-
-        // The potentially large array of LatLng objects for the roadmap
-        var path = [<?php echo $imapdata; ?>];
-
-        // Create a boundary using the path to automatically configure
-        // the default centering location and zoom.
-        var bounds = new google.maps.LatLngBounds();
-        for (i = 0; i < path.length; i++) {
-          bounds.extend(path[i]);
-        }
-        map.fitBounds(bounds);
-
-        // If required/desired, set zoom manually now that bounds have been set
-<?php if ($setZoomManually === 1) { ?>
-        zoomChange = google.maps.event.addListenerOnce(map, 'bounds_changed',
-          function(event) {
-            if (this.getZoom()){
-            this.setZoom(16);
-            }
-          });
-        setTimeout(function(){
-        google.maps.event.removeListener(zoomChange)
-        }, 1000);
-
-        var contentString = '<div>'+
-          '<div class="alert alert-info">'+
-          '  <p class="lead" align="center">'+
-          "  You're seeing this window because "+
-          '<br />'+
-          "you haven't selected a session. "+
-          '<br /><br />'+
-          " Select one from the dropdown menu."+
-          '  </p>'+
-          '</div>'+
-          '</div>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-        var marker = new google.maps.Marker({
-          position: <?php echo $imapdata; ?>,
-          map: map,
-          title: 'Area 51'
-        });
-
-        setTimeout(function() {
-        infowindow.open(map, marker)
-        }, 2000);
-<?php } ?>
-        var line = new google.maps.Polyline({
-          path: path,
-          strokeColor: '#800000',
-          strokeOpacity: 0.75,
-          strokeWeight: 4
-        });
-        line.setMap(map);
-      };
-      google.maps.event.addDomListener(window, 'load', initialize);
+	<!-- Array of Drive Path Coordinates -->
+    var coordinates = [
+		<?php echo $imapdata; ?>
+    ];
     </script>
 <?php if ($setZoomManually === 0) { ?>
     <!-- Flot Local Javascript files -->
@@ -318,6 +241,45 @@ if (isset($sids[0])) {
     </div>
     <div id="map-container" class="col-md-7 col-xs-12">
       <div id="map-canvas"></div>
+
+    <script type="text/javascript">
+	<!-- Initialize drive path layer -->
+    var layerLines = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [new ol.Feature({
+                geometry: new ol.geom.LineString(coordinates),
+                name: 'Line'
+            })]
+        }),
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#ff0000',
+                width: 3
+            })
+        })
+    });
+
+	<!-- Initialize map -->
+    var map = new ol.Map({
+        target: 'map-canvas',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: view
+    });
+
+	<!-- Add drive path layer -->
+    map.addLayer(layerLines);
+
+	<!-- Center view on drive path -->
+    var view = new ol.View({});
+	var extent = layerLines.getSource().getExtent();
+	map.getView().fit(extent, {padding: [50, 50, 50, 50]});
+	
+    </script>
+
     </div>
     <div id="right-container" class="col-md-5 col-xs-12">
       <div id="right-cell">
