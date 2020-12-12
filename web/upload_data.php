@@ -17,12 +17,13 @@ if (mysqli_num_rows($result) > 0) {
 // Iterate over all the k* _GET arguments to check that a field exists
 if (sizeof($_GET) > 0) {
 
-        // ABRP forwarding
-        foreach ($_GET as $key => $value) {
-                $out[] = $key ."=". $value;
-        }
-        $result = file_get_contents('http://api.iternio.com/1/tlm/kona64?' . implode("&", $out));
-        #echo 'http://api.iternio.com/1/tlm/kona64?' . implode("&", $out);
+	// ABRP forwarding
+	if ($use_abrp) {
+		foreach ($_GET as $key => $value) {
+			$out[] = $key ."=". $value;
+		}
+		$result = file_get_contents($abrp_forward_url . '?' . implode("&", $out));
+	}
 
   $keys = array();
   $values = array();
