@@ -270,14 +270,25 @@ if (isset($sids[0])) {
         view: view
     });
 
+	<!-- Initialize marker to start of log -->
+	var markericon = new ol.layer.Vector({
+		source: new ol.source.Vector({
+			features: [
+				new ol.Feature({
+					geometry: new ol.geom.Point(coordinates[coordinates.length-1])
+				})
+			]
+		})
+	});
+	map.addLayer(markericon);
+
 	<!-- Add drive path layer -->
     map.addLayer(layerLines);
-
+	
 	<!-- Center view on drive path -->
     var view = new ol.View({});
 	var extent = layerLines.getSource().getExtent();
 	map.getView().fit(extent, {padding: [50, 50, 50, 50]});
-	
     </script>
 
     </div>
