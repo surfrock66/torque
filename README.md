@@ -2,7 +2,7 @@ This repo contains everything needed to setup an interface for uploading ODB2 da
 
 The interface allows the user to:
 
-  * View a Google Map showing your trips logged via Torque
+  * View a OpenStreet Map showing your trips logged via Torque
   * Create time series plots of OBD2 data
   * Easily export data to CSV or JSON
 
