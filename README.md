@@ -134,7 +134,6 @@ LimitRequestLine 15000
 * Sanity Checks and Warnings for merges and deletes
 * Allow for csv imports...captures un-uploaded but recorded data when emailed from torque
   * Email-receiver for this?  LONG SHOT, but have the server read an email address so you can email tracks from the app
-* Ian Hawkins has a google map pin show up when hovering over his graphs on his reference viewer...different system, but it'd be cool to implement.
 * Idea: speed heatmap for the map track. (Google Maps iOS API has gradient polylines, javascript API does not...may not be possible for now).
 
 ### Credits and Thanks ###
