@@ -492,18 +492,7 @@ if (isset($sids[0])) {
         </div>
       </div>
     </div>
-
-<script>
-  $('#seshidtag option').each(function() {
-    entrydate = $(this).text().substr(0, 13);
-    if (ld = parseInt(entrydate)) {
-      ld = new Date( ld );
-      ld = ld.toString().substr(4,17);
-      this.text = ld + $(this).text().substr(13);
-    }
-  });
-</script>
-
+    <script language="javascript" type="text/javascript" src="static/js/torquehelpers2.js"></script>
   </body>
 </html>
 <?php //echo "<!-- End session.php at ".date("H:i:s", microtime(true))." -->\r\n"; ?>
