@@ -20,8 +20,8 @@ If in doubt, I'd recommend using Ubuntu LTS.
 
 You also need a Bluetooth ODBII adapter, the first one was recommended by the former authors, I am using the second one:
 
-[BAFX Products 34t5 Bluetooth OBDII Scan Tool for Android Devices](http://www.amazon.com/gp/product/B005NLQAHS) 
-[Panlong Bluetooth OBD2 OBDII Car Diagnostic Scanner Check Engine Light for Android - Compatible with Torque Pro](https://www.amazon.com/gp/product/B00PJPHEBO)
+1: [BAFX Products 34t5 Bluetooth OBDII Scan Tool for Android Devices](http://www.amazon.com/gp/product/B005NLQAHS) 
+2: [Panlong Bluetooth OBD2 OBDII Car Diagnostic Scanner Check Engine Light for Android - Compatible with Torque Pro](https://www.amazon.com/gp/product/B00PJPHEBO)
 
 You can buy ODB2 extension cables if the adapter is in a weird position. I have an extension cable with a switch, so the adapter can easily be turned off without putting too much strain on the ODB2 port.
 
