@@ -97,7 +97,8 @@ Below are the options which seem to work best for optimal logging, the suggested
 
 <div align="center" style="padding:15px; display:block;"><img src="http://www.surfrock66.com/images/torque_screenshot_1.png" width="45%" float="left" /><img src="http://www.surfrock66.com/images/torque_screenshot_2.png" width="45%" float="right" /></div>
 
-Additionally, I recommend changing the web logging interval to 1s, though this produces a LOT of data.  Some users may want to set this to >=5s.  
+Additionally, change the web logging interval to 1s or greater. Some users may want to set this to >=5s. I recommend 3s or 5s.  
+A setting of 1s might be too fast depending on the amount of PIDs read and sent. I've had very consistent data with 3s and 5s.  
 
 <div align="center" style="padding-bottom:15px; display:block;"><img src="http://www.surfrock66.com/images/torque_screenshot_3.png" width="45%" float="left" /><img src="http://www.surfrock66.com/images/torque_screenshot_4.png" width="45%" float="right" /></div>
 
