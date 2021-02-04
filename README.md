@@ -1,3 +1,5 @@
+This repo is a fork from surfrock66 adaption of the OpenTorque Viewer, originally developed by econpy.
+
 This repo contains everything needed to setup an interface for uploading ODB2 data logged from your car in real-time using the [Torque Pro](https://play.google.com/store/apps/details?id=org.prowl.torque) app for Android.
 
 The interface allows the user to:
@@ -5,10 +7,6 @@ The interface allows the user to:
   * View a OpenStreet Map showing your trips logged via Torque
   * Create time series plots of OBD2 data
   * Easily export data to CSV or JSON
-
-# Demo #
-
-[Check out the demo!](http://hda.surfrock66.com/torquetest/)
 
 # Requirements #
 
@@ -20,13 +18,12 @@ These instructions assume you already have a LAMP-like server (on a Linux/UNIX b
 
 If in doubt, I'd recommend using Ubuntu LTS.
 
-You also need a Bluetooth ODBII adapter, I recommend this one which I've used since 2014:
+You also need a Bluetooth ODBII adapter, the first one was recommended by the former authors, I am using the second one:
 
 [BAFX Products 34t5 Bluetooth OBDII Scan Tool for Android Devices](http://www.amazon.com/gp/product/B005NLQAHS)
+[Panlong Bluetooth OBD2 OBDII Car Diagnostic Scanner Check Engine Light for Android - Compatible with Torque Pro](https://www.amazon.com/gp/product/B00PJPHEBO)
 
-I also use this to position the adapter in a better location:
-
-[Oem OBD-II OBD2 16Pin Male to Female Extension Cable Diagnostic Extender 100cm](http://www.amazon.com/OBD-II-Female-Extension-Diagnostic-Extender/dp/B007PAHHWM)
+You can buy ODB2 extension cables if the adapter is in a weird position. I have an extension cable with a switch, so the adapter can easily be turned off without putting too much strain on the ODB2 port.
 
 # Server Setup #
 
@@ -56,14 +53,6 @@ mysql -u yoursqlusername -p < scripts/create_torque_log_table.sql
 mysql -u yoursqlusername -p < scripts/create_torque_sessions_table.sql
 mysql -u yoursqlusername -p < scripts/create_torque_keys_table.sql
 ```
-
-### OPTIONAL: Create Google Maps Javascript API Key ###
-
-It's optional, but to be above board, you should create an API key for the google maps javascript API.  If you go here [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/) Click the "Get A Key" button, and follow the procedure to create a new project, then go to "Credentials" and make a new API Key, choosing "Server".  You'll be using it below.
-
-More guidance is available [here](https://developers.google.com/maps/documentation/javascript/get-api-key).
-
-You don't NEED to do this, but it's the proper way and will actually squash some javascript warnings if you like to keep your debug logs clean.
 
 ### Configure Webserver ###
 
@@ -96,8 +85,6 @@ $db_sessions_table = 'sessions';
 $gmapsApiKey = ''; // OPTIONAL Create a key at https://developers.google.com/maps/documentation/javascript/
 ...
 ```
-
-If you created a google maps API key above, place that in the variable here.
 
 # Settings in Torque App #
 
@@ -133,12 +120,10 @@ LimitRequestLine 15000
 
 * Sanity Checks and Warnings for merges and deletes
 * Allow for csv imports...captures un-uploaded but recorded data when emailed from torque
-  * Email-receiver for this?  LONG SHOT, but have the server read an email address so you can email tracks from the app
 * Idea: speed heatmap for the map track. (Google Maps iOS API has gradient polylines, javascript API does not...may not be possible for now).
 
 ### Credits and Thanks ###
 
 * [Ian Hawkins](http://ian-hawkins.com/) - Creator of the Torque app, none of this happens without that
-* [Matt Nicklay/econpy](https://github.com/econpy) - This is the project I forked from, so all credit where credit is due
-* [Takashi Saito/takashisite](https://github.com/takashisite) - Spawn for the patch to change the GPS from float to double; I didn't take his pull request because it came with a greater structural update, but he deserves credit for pointing it out
-* [marvinwankersteen](https://github.com/marvinwankersteen) - Gave me the idea to implement the "favorite variables" system.
+* [Matt Nicklay/econpy](https://github.com/econpy) - This is the original project, so all credit where credit is due
+* [Joe Gullizzo/surfrock66](https://github.com/surfrock66) - The project I forked from, credit where credit is due
