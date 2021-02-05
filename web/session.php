@@ -471,7 +471,7 @@ if (isset($sids[0])) {
         <h4>Export Data</h4>
         <div class="row center-block" style="padding-bottom:18px;">
 <?php if ($setZoomManually === 0) { ?>
-          <div class="btn-group btn-group-justified">
+          <div id="export" class="btn-group btn-group-justified">
             <a class="btn btn-default" role="button" href="<?php echo './export.php?sid='.$session_id.'&filetype=csv'; ?>">CSV</a>
             <a class="btn btn-default" role="button" href="<?php echo './export.php?sid='.$session_id.'&filetype=json'; ?>">JSON</a>
           </div>
