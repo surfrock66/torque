@@ -182,8 +182,8 @@ if (isset($sids[0])) {
               mode: "time",
               timezone: "browser",
               axisLabel: "Time",
-              timeformat: "%I:%M%p",
-              twelveHourClock: true
+              timeformat: "%H:%M%",
+              twelveHourClock: false
             } ],
             yaxes: [ { axisLabel: "" }, {
               alignTicksWithAxis: position == "right" ? 1 : null,
@@ -207,7 +207,7 @@ if (isset($sids[0])) {
               //content: "%s at %x: %y",
               content: "%x",
               xDateFormat: "%m/%d/%Y %I:%M:%S%p",
-              twelveHourClock: true,
+              twelveHourClock: false,
               onHover: function(flotItem, $tooltipEl) {
                 console.log(flotItem, $tooltipEl);
               }
