@@ -38,7 +38,6 @@ mysqli_close($con);
     <script language="javascript" type="text/javascript" src="static/js/jquery.peity.min.js"></script>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="static/js/torquehelpers.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
       $(function(){
         var message_status = $("#status");
@@ -55,7 +54,7 @@ mysqli_close($con);
           });
         });
 	
-        $("input[contenteditable=true]").blur(function(){
+        $("input:checkbox").click(function(){
           var field_pid = $(this).attr("id");
           var value = $(this).is(":checked");
           $.post('pid_commit.php' , field_pid + "=" + value, function(data) {
@@ -67,7 +66,7 @@ mysqli_close($con);
           });
         });
 	
-        $("select[contenteditable=true]").blur(function(){
+        $("select").change(function(){
           var field_pid = $(this).attr("id");
           var value = $(this).val();
           $.post('pid_commit.php' , field_pid + "=" + value, function(data) {
@@ -108,23 +107,23 @@ mysqli_close($con);
           <td id="description:<?php echo $keycol['id']; ?>" contenteditable="true"><?php echo $keycol['description']; ?></td>
           <td id="units:<?php echo $keycol['id']; ?>" contenteditable="true"><?php echo $keycol['units']; ?></td>
           <td>
-            <select  id="type:<?php echo $keycol['id']; ?>" contenteditable="true">
+            <select id="type:<?php echo $keycol['id']; ?>">
               <!--<option value="boolean"<?php //if ($keycol['type'] == "boolean") echo ' selected'; ?>>boolean</option>-->
               <option value="double"<?php if ($keycol['type'] == "double") echo ' selected'; ?>>double</option>
               <option value="float"<?php if ($keycol['type'] == "float") echo ' selected'; ?>>float</option>
               <option value="varchar(255)"<?php if ($keycol['type'] == "varchar(255)") echo ' selected'; ?>>varchar(255)</option>
-            </selecT>
+            </select>
           </td>
           <td id="min:<?php echo $keycol['id']; ?>" contenteditable="true"><?php echo $keycol['min']; ?></td>
           <td id="max:<?php echo $keycol['id']; ?>" contenteditable="true"><?php echo $keycol['max']; ?></td>
-          <td><input type="checkbox" id="populated:<?php echo $keycol['id']; ?>" contenteditable="true"<?php if ( $keycol['populated'] ) echo " CHECKED"; ?>/></td>
-          <td><input type="checkbox" id="favorite:<?php echo $keycol['id']; ?>" contenteditable="true"<?php if ( $keycol['favorite'] ) echo " CHECKED"; ?>/></td>
+          <td><input type="checkbox" id="populated:<?php echo $keycol['id']; ?>"<?php if ( $keycol['populated'] ) echo " CHECKED"; ?>/></td>
+          <td><input type="checkbox" id="favorite:<?php echo $keycol['id']; ?>"<?php if ( $keycol['favorite'] ) echo " CHECKED"; ?>/></td>
         </tr>
 <?php   $i = $i + 1; ?>
 <?php } ?>
       </tbody>
     </table>
-    <div id="status" style="padding:10px; background:#88C4FF; color:#000; font-weight:bold; font-size:12px; margin-bottom:10px; display:none; width:90%;"></div>
+    <div id="status" style="position:fixed; top:50%; left:50%; margin-left:-100px; padding:10px; background:#88C4FF; color:#000; font-weight:bold; font-size:12px; text-align:center; display:none; width:200px;"></div>
   </body>
 </html>
 
