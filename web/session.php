@@ -358,12 +358,12 @@ if (isset($sids[0])) {
                 </td>
                 <td>
                   <form method="post" class="form-horizontal" role="form" action="session.php?deletesession=<?php echo $session_id; ?>" id="formdelete">
-                    <div align="center" style="padding-top:6px;"><input class="btn btn-info btn-sm" type="submit" id="formdelete" name="delete" value="Delete" title="Delete this session (<?php echo $seshdates[$session_id]; ?>)." /></div>
+                    <div align="center" style="padding-top:6px;"><input class="btn btn-info btn-sm" type="submit" id="formdelete" name="delete" value="Delete" title="Delete this session or selected range (<?php echo $seshdates[$session_id]; ?>)." /></div>
                   </form>
                 </td>
                 <script type="text/javascript">
                   $('#formdelete').submit(function() {
-                    var c = confirm("Click OK to delete session (<?php echo $seshdates[$session_id]; ?>).");
+                    var c = confirm("Click OK to delete session or selected range (<?php echo $seshdates[$session_id]; ?>).");
                     return c; //you can just return c because it will be true or false
                   });
                 </script>
